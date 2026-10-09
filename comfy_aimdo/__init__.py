@@ -294,13 +294,13 @@ try:
     class _CoreModelPatcherProxy:
         """Factory proxy – selects ModelPatcher or ModelPatcherDynamic
         based on the current _dynamic_vram_enabled flag."""
-        def __new__(cls, model=None, load_device=None, offload_device=None, size=0, weight_inplace_update=False):
+        def __new__(cls, model=None, load_device=None, offload_device=None, size=0, weight_inplace_update=False, fast_disk=False):
             enabled = _ctrl._dynamic_vram_enabled
             if _ctrl._debug:
                 print(f"[ComfyUI-AIMDO-XPU] [Proxy] {'DynamicPatcher' if enabled else 'BasePatcher'} for {model.__class__.__name__ if model else '?'} (_dynamic_vram_enabled={enabled})", flush=True)
             if enabled:
-                return _DynamicPatcher(model, load_device, offload_device, size, weight_inplace_update)
-            return _BasePatcher(model, load_device, offload_device, size, weight_inplace_update)
+                return _DynamicPatcher(model, load_device, offload_device, size, weight_inplace_update, fast_disk)
+            return _BasePatcher(model, load_device, offload_device, size, weight_inplace_update, fast_disk)
 
     comfy.model_patcher.CoreModelPatcher = _CoreModelPatcherProxy
     comfy.memory_management.aimdo_enabled = False
