@@ -8,6 +8,29 @@ Intel XPU 版动态模型卸载器（comfy-aimdo XPU 替代实现）
 
 [**English**](README_EN.md) | 中文
 
+## Fork Compatibility Notes: Newer ComfyUI on Linux
+
+This fork includes experimental compatibility fixes for newer ComfyUI APIs in the Python-based Intel XPU implementation.
+
+### Compatibility changes
+
+* Forward the `fast_disk` argument through the `ModelPatcher` compatibility proxy.
+* Provide `comfy_aimdo.storage` as a compatibility module.
+* Provide an XPU-safe `comfy_aimdo.malloc_graph` compatibility stub for ComfyUI imports.
+
+### Tested environment
+
+* OS: Ubuntu 26.04.1 LTS
+* GPU: Intel Arc Pro B60
+* PyTorch: `2.12.1+xpu`
+* ComfyUI core revision: `af89add63f71a487fde45efc7fba744f3455ae73`
+
+XPU initialization and model staging were observed in this environment. Full workflow compatibility and inference stability have not yet been verified.
+
+**Status: Experimental.** Behavior may vary across ComfyUI revisions and workflows. This compatibility work does not implement CUDA graph execution on XPU.
+
+For Intel XPU, use an XPU-compatible PyTorch and ComfyUI environment together with this plugin. The original CUDA implementation requires a supported NVIDIA CUDA environment.
+
 ---
 
 ## 原版 comfy-aimdo（CUDA）核心能力
