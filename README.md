@@ -31,6 +31,40 @@ XPU initialization and model staging were observed in this environment. Full wor
 
 For Intel XPU, use an XPU-compatible PyTorch and ComfyUI environment together with this plugin. The original CUDA implementation requires a supported NVIDIA CUDA environment.
 
+### Linux ComfyUI Desktop：路径与环境变量配置
+
+对于 Linux 版 ComfyUI Desktop，必须确保插件目录包含在 `PYTHONPATH` 中，以便正确导入 `comfy_aimdo` 兼容性模块。
+
+**目录结构示例**
+
+```text
+ComfyUI/
+├── main.py
+└── custom_nodes/
+    └── ComfyUI-AIMDO-XPU/
+        └── comfy_aimdo/
+```
+
+**配置 `PYTHONPATH`**
+
+`PYTHONPATH` 应指向 `ComfyUI-AIMDO-XPU` 插件目录，而不是内部的 `comfy_aimdo` 目录。
+
+```bash
+export PYTHONPATH="/path/to/ComfyUI/custom_nodes/ComfyUI-AIMDO-XPU:$PYTHONPATH"
+```
+
+请将 `/path/to/ComfyUI` 替换为你自己的 ComfyUI 安装路径。
+
+**ComfyUI Desktop 用户须知**
+
+必须确保上述环境变量传递给 ComfyUI Desktop 实际启动的 Python 进程。仅在终端中设置 `PYTHONPATH`，不一定会影响通过桌面启动器运行的 ComfyUI。
+
+配置方法取决于 Desktop 的启动方式。请在启动前配置环境变量，并检查启动日志，确认 AIMDO-XPU 的兼容性补丁已成功加载。
+
+> 注意：以上命令仅演示路径配置，不代表所有 ComfyUI Desktop 安装方式都可以直接使用该命令完成配置。
+
+本分支的兼容性修复仍处于实验阶段，尚未验证所有工作流和推理场景。
+
 ---
 
 ## 原版 comfy-aimdo（CUDA）核心能力
