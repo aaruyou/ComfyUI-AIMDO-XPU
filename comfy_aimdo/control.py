@@ -141,7 +141,7 @@ def _check_api_compat():
 # Public API  (must match comfy-aimdo 0.2.x exactly)
 # --------------------------------------------------------------------------
 
-def init() -> bool:
+def init(simple_vram_headroom=None, nvml_pressure=True) -> bool:
     """
     Called by main.py before init_device().
     Prepares the XPU backend; returns True if XPU is usable.
